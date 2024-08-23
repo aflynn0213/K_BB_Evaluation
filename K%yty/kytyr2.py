@@ -14,23 +14,31 @@ if __name__ == "__main__":
     players_2021 = df.index.get_level_values('name')[df.index.get_level_values('season') == 2021].unique()
     players_2022 = df.index.get_level_values('name')[df.index.get_level_values('season') == 2022].unique()
     players_2023 = df.index.get_level_values('name')[df.index.get_level_values('season') == 2023].unique()
-    
+    players_2024 = df.index.get_level_values('name')[df.index.get_level_values('season') == 2024].unique()
+
     common_players = set(players_2021).intersection(players_2022)
     common_players_2 = set(players_2022).intersection(players_2023)
+    common_players_3 = set(players_2023).intersection(players_2024)
     
     # Step 2: Filter the data for common players from 2021 and 2022
     x_1 = df.loc[(2021, list(common_players)), "k%"]
     y_1 = df.loc[(2022, list(common_players)), "k%"]
     x_2 = df.loc[(2022, list(common_players_2)), "k%"]
     y_2 = df.loc[(2023, list(common_players_2)), "k%"]
+    x_3 = df.loc[(2023, list(common_players_3)), "k%"]
+    y_3 = df.loc[(2024, list(common_players_3)), "k%"]
+
     x_1 = x_1.sort_index(level='name')
     y_1 = y_1.sort_index(level='name')
     x_2 = x_2.sort_index(level='name')
     y_2 = y_2.sort_index(level='name')
-    x = pd.concat([x_1,x_2])
-    y = pd.concat([y_1,y_2])
+    x_3 = x_3.sort_index(level='name')
+    y_3 = y_3.sort_index(level='name')
 
-    print(x)
+    x = pd.concat([x_1,x_2,x_3])
+    y = pd.concat([y_1,y_2,y_3])
+
+    print(x.shape)
     print(y)
 
     print(r2_score(y,x))
